@@ -1,0 +1,106 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .primary-btn {
+    @apply border border-slate-400 hover:border-purple-500 hover:bg-purple-500/10 text-slate-300 hover:text-white font-medium rounded px-6 py-2 text-sm transition-all duration-300;
+  }
+  
+  .green-primary-btn {
+    @apply bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold px-8 py-4 rounded-full transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl;
+  }
+  
+  .green-card {
+    @apply bg-white/80 backdrop-blur-sm border border-green-100 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105;
+  }
+  
+  .green-gradient-bg {
+    @apply bg-gradient-to-br from-green-50 via-emerald-50 to-green-100;
+  }
+  
+  .green-text-gradient {
+    @apply bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent;
+  }
+  
+  .nature-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .leaf-animation {
+    animation: leaf-sway 4s ease-in-out infinite;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes leaf-sway {
+  0%, 100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+/* Custom Scrollbar - Green Theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0fdf4;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3f454f;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #282C33;
+}
+
+/* Green Science Theme Variables */
+:root {
+  --green-primary: #10b981;
+  --green-secondary: #059669;
+  --emerald-primary: #10b981;
+  --emerald-secondary: #047857;
+  --nature-light: #f0fdf4;
+  --nature-dark: #14532d;
+}
+
+/* Background Patterns */
+.bg-nature-pattern {
+  background-color: #282C33;
+}
+
+/* Card Animations */
+.green-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.green-card-hover:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
+}
+
+/* Responsive Design Improvements */
+@media (max-width: 768px) {
+  .green-primary-btn {
+    @apply px-6 py-3 text-sm;
+  }
+  
+  .green-card {
+    @apply p-4;
+  }
+}
