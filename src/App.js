@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import { Navbar, Footer, Sidebar, ThemeSettings } from "./components";
-import { Page404, Homepage, Dashboard, LoginPage } from "./pages";
+import { Page404, Homepage, Dashboard, LoginPage, BiodataPage, AddBiodata, EditBiodata } from "./pages";
 
 import { useStateContext } from "./contexts/ContextProvider";
 
@@ -65,8 +65,10 @@ const AppContent = () => {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/dashboard" element={<Dashboard />} />
               
-              {/* Portfolio Routes */}
-              {/* <Route path="/biodata" element={<div className="p-8">Biodata Page</div>} />
+              Portfolio Routes
+              <Route path="/biodata" element={<BiodataPage />} />
+              <Route path="/add-biodata" element={<AddBiodata />} />
+              <Route path="/edit-biodata/:id" element={<EditBiodata />} />
               <Route path="/projects" element={<div className="p-8">Projects Page</div>} />
               <Route path="/skills" element={<div className="p-8">Skills Page</div>} />
               <Route path="/certificates" element={<div className="p-8">Certificates Page</div>} />
@@ -74,7 +76,7 @@ const AppContent = () => {
               <Route path="/education" element={<div className="p-8">Education Page</div>} />
               <Route path="/organizations" element={<div className="p-8">Organizations Page</div>} />
               <Route path="/ganti-password" element={<div className="p-8">Change Password Page</div>} />
-              <Route path="/users" element={<div className="p-8">Users Management Page</div>} /> */}
+              <Route path="/users" element={<div className="p-8">Users Management Page</div>} />
 
               <Route path="/page-not-found" element={<Page404 />} />
               <Route path="*" element={<Page404 />} />

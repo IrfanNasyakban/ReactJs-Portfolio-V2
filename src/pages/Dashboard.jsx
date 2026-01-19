@@ -7,23 +7,18 @@ import { motion } from "framer-motion";
 import { useStateContext } from "../contexts/ContextProvider";
 
 import {
-  FaUser,
   FaProjectDiagram,
   FaTools,
   FaCertificate,
   FaBriefcase,
-  FaGraduationCap,
-  FaUsers,
   FaCode,
   FaLaptopCode,
   FaRocket,
-  FaChartLine,
   FaEye,
   FaSignOutAlt,
   FaInfoCircle,
   FaGithub,
   FaLinkedin,
-  FaEnvelope
 } from "react-icons/fa";
 
 const Dashboard = () => {
@@ -110,7 +105,12 @@ const Dashboard = () => {
     { name: "MongoDB", level: 85, icon: "🍃" }
   ];
 
-  // Effects
+  const handleLogout = async () => {
+    await dispatch(LogOut());
+    dispatch(reset());
+    navigate("/");
+  };
+  
   useEffect(() => {
     dispatch(getMe());
   }, [dispatch]);
@@ -195,12 +195,6 @@ const Dashboard = () => {
     if (redirectPath) {
       navigate(redirectPath);
     }
-  };
-
-  const handleLogout = async () => {
-    await dispatch(LogOut());
-    dispatch(reset());
-    navigate("/");
   };
 
   return (

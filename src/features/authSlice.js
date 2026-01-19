@@ -11,13 +11,14 @@ const initialState = {
 
 export const LoginUser = createAsyncThunk("user/LoginUser", async(user, thunkAPI) => {
     try {
-        const response = await axios.post('http://localhost:5000/login', {
+        const apiUrl = process.env.REACT_APP_URL_API;
+        const response = await axios.post(`${apiUrl}/login`, {
             username: user.username,
             password: user.password
         });
         // Store token in localStorage
-        if (response.data.token) {
-            localStorage.setItem('token', response.data.token);
+        if (response.data.accessToken) {
+            localStorage.setItem('accessToken', response.data.accessToken);
         }
         return response.data;
     } catch (error) {
@@ -30,8 +31,9 @@ export const LoginUser = createAsyncThunk("user/LoginUser", async(user, thunkAPI
 
 export const getMe = createAsyncThunk("user/getMe", async(_, thunkAPI) => {
     try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/me', {
+        const token = localStorage.getItem('accessToken');
+        const apiUrl = process.env.REACT_APP_URL_API;
+        const response = await axios.get(`${apiUrl}/me`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -47,14 +49,15 @@ export const getMe = createAsyncThunk("user/getMe", async(_, thunkAPI) => {
 
 export const LogOut = createAsyncThunk("user/LogOut", async(_, thunkAPI) => {
     try {
-        const token = localStorage.getItem('token');
-        await axios.delete('http://localhost:5000/logout', {
+        const token = localStorage.getItem("accessToken");
+        const apiUrl = process.env.REACT_APP_URL_API;
+        await axios.delete(`${apiUrl}/logout`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         });
         // Remove token from localStorage
-        localStorage.removeItem('token');
+        localStorage.removeItem('accessToken');
     } catch (error) {
         return thunkAPI.rejectWithValue("Logout failed");
     }
