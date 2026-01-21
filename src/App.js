@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import { Navbar, Footer, Sidebar, ThemeSettings } from "./components";
-import { Page404, Homepage, Dashboard, LoginPage, BiodataPage, AddBiodata, EditBiodata } from "./pages";
+import { Page404, Homepage, Dashboard, LoginPage, BiodataPage, AddBiodata, EditBiodata, ListProject, AddProject, EditProject, ListSkill, AddSkill, EditSkill, ListCertificate, AddCertificate, EditCertificate, ListExperience, AddExperience, EditExperience, ListEducation, AddEducation, EditEducation, ListOrganization, AddOrganization, EditOrganization } from "./pages";
 
 import { useStateContext } from "./contexts/ContextProvider";
 
@@ -69,12 +69,24 @@ const AppContent = () => {
               <Route path="/biodata" element={<BiodataPage />} />
               <Route path="/add-biodata" element={<AddBiodata />} />
               <Route path="/edit-biodata/:id" element={<EditBiodata />} />
-              <Route path="/projects" element={<div className="p-8">Projects Page</div>} />
-              <Route path="/skills" element={<div className="p-8">Skills Page</div>} />
-              <Route path="/certificates" element={<div className="p-8">Certificates Page</div>} />
-              <Route path="/experience" element={<div className="p-8">Experience Page</div>} />
-              <Route path="/education" element={<div className="p-8">Education Page</div>} />
-              <Route path="/organizations" element={<div className="p-8">Organizations Page</div>} />
+              <Route path="/projects" element={<ListProject />} />
+              <Route path="/add-projects" element={<AddProject />} />
+              <Route path="/edit-project/:id" element={<EditProject />} />
+              <Route path="/skills" element={<ListSkill />} />
+              <Route path="/add-skills" element={<AddSkill />} />
+              <Route path="/edit-skills/:id" element={<EditSkill />} />
+              <Route path="/certificates" element={<ListCertificate />} />
+              <Route path="/add-certificates" element={<AddCertificate />} />
+              <Route path="/edit-certificates/:id" element={<EditCertificate />} />
+              <Route path="/experience" element={<ListExperience />} />
+              <Route path="/add-experience" element={<AddExperience />} />
+              <Route path="/edit-experience/:id" element={<EditExperience />} />
+              <Route path="/education" element={<ListEducation />} />
+              <Route path="/add-education" element={<AddEducation />} />
+              <Route path="/edit-education/:id" element={<EditEducation />} />
+              <Route path="/organizations" element={<ListOrganization />} />
+              <Route path="/add-organizations" element={<AddOrganization />} />
+              <Route path="/edit-organizations/:id" element={<EditOrganization />} />
               <Route path="/ganti-password" element={<div className="p-8">Change Password Page</div>} />
               <Route path="/users" element={<div className="p-8">Users Management Page</div>} />
 
