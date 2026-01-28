@@ -72,18 +72,15 @@ const ListProject = () => {
   };
 
   const deleteProject = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this project?')) return;
-
     try {
       const token = localStorage.getItem('accessToken');
       const apiUrl = process.env.REACT_APP_URL_API;
-      await axios.delete(`${apiUrl}/projects/${id}`, {
+      await axios.delete(`${apiUrl}/project/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       getProjects();
     } catch (error) {
       console.error('Error deleting project:', error);
-      alert('Failed to delete project');
     }
   };
 

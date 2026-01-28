@@ -79,18 +79,15 @@ const ListEducation = () => {
   };
 
   const deleteEducation = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this education?')) return;
-
     try {
       const token = localStorage.getItem('accessToken');
       const apiUrl = process.env.REACT_APP_URL_API;
-      await axios.delete(`${apiUrl}/educations/${id}`, {
+      await axios.delete(`${apiUrl}/education/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       getEducations();
     } catch (error) {
       console.error('Error deleting education:', error);
-      alert('Failed to delete education');
     }
   };
 

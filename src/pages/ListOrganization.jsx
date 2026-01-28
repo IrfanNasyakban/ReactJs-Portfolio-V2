@@ -80,8 +80,6 @@ const ListOrganization = () => {
   };
 
   const deleteOrganization = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this organization?')) return;
-
     try {
       const token = localStorage.getItem('accessToken');
       const apiUrl = process.env.REACT_APP_URL_API;
@@ -91,7 +89,6 @@ const ListOrganization = () => {
       getOrganizations();
     } catch (error) {
       console.error('Error deleting organization:', error);
-      alert('Failed to delete organization');
     }
   };
 

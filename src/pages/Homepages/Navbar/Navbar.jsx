@@ -64,6 +64,12 @@ const Navbar = () => {
               >
                 #contacts
               </button>
+              <button
+                onClick={() => navigate("/chat-ai")}
+                className="text-slate-300 hover:text-purple-400 font-medium transition-colors duration-300 cursor-pointer text-sm"
+              >
+                #chat-AI
+              </button>
             </nav>
           </div>
 
@@ -105,22 +111,28 @@ const Navbar = () => {
                 #home
               </button>
               <button
-                onClick={() => scrollToSection("about")}
+                onClick={() => scrollToSection("projects")}
                 className="block w-full text-left text-slate-300 hover:text-purple-400 font-medium py-2 transition-colors duration-300 text-sm"
               >
                 #works
               </button>
               <button
-                onClick={() => scrollToSection("features")}
+                onClick={() => scrollToSection("about")}
                 className="block w-full text-left text-slate-300 hover:text-purple-400 font-medium py-2 transition-colors duration-300 text-sm"
               >
                 #about-me
               </button>
               <button
-                onClick={() => scrollToSection("footer")}
+                onClick={() => scrollToSection("contact")}
                 className="block w-full text-left text-slate-300 hover:text-purple-400 font-medium py-2 transition-colors duration-300 text-sm"
               >
                 #contacts
+              </button>
+              <button
+                onClick={() => navigate("/chat-ai")}
+                className="block w-full text-left text-slate-300 hover:text-purple-400 font-medium py-2 transition-colors duration-300 text-sm"
+              >
+                #chat-AI
               </button>
               <div className="lg:flex items-center gap-2">
                 <button

@@ -77,16 +77,10 @@ const Sidebar = () => {
       title: 'System',
       links: [
         {
-          name: 'ganti-password',
+          name: 'change-password',
           displayName: 'Change Password',
           icon: <FaLock />,
           allowedRoles: ['siswa', 'guru', 'admin']
-        },
-        {
-          name: 'users',
-          displayName: 'Users',
-          icon: <FaUsers />,
-          allowedRoles: ['admin']
         },
       ],
     },

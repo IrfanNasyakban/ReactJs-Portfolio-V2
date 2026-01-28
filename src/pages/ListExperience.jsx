@@ -78,8 +78,6 @@ const ListExperience = () => {
   };
 
   const deleteExperience = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this experience?')) return;
-
     try {
       const token = localStorage.getItem('accessToken');
       const apiUrl = process.env.REACT_APP_URL_API;
@@ -89,7 +87,6 @@ const ListExperience = () => {
       getExperiences();
     } catch (error) {
       console.error('Error deleting experience:', error);
-      alert('Failed to delete experience');
     }
   };
 

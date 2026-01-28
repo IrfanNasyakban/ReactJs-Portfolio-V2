@@ -79,18 +79,15 @@ const ListCertificate = () => {
   };
 
   const deleteCertificate = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this certificate?')) return;
-
     try {
       const token = localStorage.getItem('accessToken');
       const apiUrl = process.env.REACT_APP_URL_API;
-      await axios.delete(`${apiUrl}/certificates/${id}`, {
+      await axios.delete(`${apiUrl}/certificate/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       getCertificates();
     } catch (error) {
       console.error('Error deleting certificate:', error);
-      alert('Failed to delete certificate');
     }
   };
 

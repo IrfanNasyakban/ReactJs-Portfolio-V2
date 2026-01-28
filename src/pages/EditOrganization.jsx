@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -15,7 +15,8 @@ import {
   FaCalendarAlt,
   FaImage,
   FaUpload,
-  FaSpinner
+  FaSpinner,
+  FaExchangeAlt
 } from 'react-icons/fa';
 
 const EditOrganization = () => {
@@ -32,6 +33,7 @@ const EditOrganization = () => {
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
   const [errors, setErrors] = useState({});
+  const fileInputRef = useRef(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -151,6 +153,17 @@ const EditOrganization = () => {
       image: null
     }));
     setPreview(existingImage);
+    
+    // Reset file input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const triggerFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
   };
 
   const validateForm = () => {
@@ -415,26 +428,59 @@ const EditOrganization = () => {
                   </label>
 
                   {preview ? (
-                    <div className="relative">
-                      <img 
-                        src={preview} 
-                        alt="Preview" 
-                        className="w-full h-48 object-contain rounded-lg bg-gray-100 dark:bg-gray-700"
-                      />
-                      {formData.image && (
+                    <div className="space-y-3">
+                      {/* Logo Preview */}
+                      <div className="relative">
+                        <img 
+                          src={preview} 
+                          alt="Preview" 
+                          className="w-full h-48 object-contain rounded-lg bg-gray-100 dark:bg-gray-700"
+                        />
                         <button
                           type="button"
                           onClick={removeImage}
-                          className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                          className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors shadow-lg"
+                          title="Remove logo"
                         >
                           <FaTimes />
                         </button>
-                      )}
-                      {!formData.image && existingImage && (
-                        <div className={`mt-2 text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
+                      </div>
+
+                      {/* Status Text */}
+                      {formData.image ? (
+                        <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                          ✓ New logo selected - This will replace the current logo
+                        </div>
+                      ) : (
+                        <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
                           Current logo - Upload a new one to replace it
                         </div>
                       )}
+
+                      {/* Change Logo Button */}
+                      <button
+                        type="button"
+                        onClick={triggerFileInput}
+                        className={`w-full flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed rounded-lg transition-colors ${
+                          isDark
+                            ? 'border-gray-600 hover:border-gray-500 hover:bg-gray-700/50 text-gray-300'
+                            : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50 text-gray-700'
+                        }`}
+                      >
+                        <FaExchangeAlt />
+                        <span className="font-medium">
+                          {formData.image ? 'Choose Different Logo' : 'Upload New Logo'}
+                        </span>
+                      </button>
+
+                      {/* Hidden File Input */}
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        className="hidden"
+                      />
                     </div>
                   ) : (
                     <label
@@ -456,6 +502,7 @@ const EditOrganization = () => {
                         </p>
                       </div>
                       <input
+                        ref={fileInputRef}
                         type="file"
                         accept="image/*"
                         onChange={handleFileChange}
@@ -466,9 +513,6 @@ const EditOrganization = () => {
                   {errors.image && (
                     <p className="mt-1 text-sm text-red-500">{errors.image}</p>
                   )}
-                  <p className={`mt-2 text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
-                    Leave unchanged to keep the current logo
-                  </p>
                 </motion.div>
               </div>
 
@@ -514,7 +558,7 @@ const EditOrganization = () => {
             className={`mt-6 p-4 rounded-lg border ${isDark ? 'bg-gray-800/50 border-gray-700' : 'bg-blue-50 border-blue-200'}`}
           >
             <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-              <strong>Tip:</strong> You can update the organization information without changing the logo. If you want to replace the logo, simply upload a new one.
+              <strong>Tip:</strong> You can update the organization information without changing the logo. To replace the logo, click "Upload New Logo" button or drag and drop a new file.
             </p>
           </motion.div>
         </motion.div>
