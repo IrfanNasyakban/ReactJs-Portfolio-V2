@@ -1,8 +1,23 @@
 import React from "react";
+import { useNavigate } from 'react-router-dom';
 import { motion } from "framer-motion";
 import photo from "../../../assets/poto-bi.jpg";
 
 const Hero = () => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const navigate = useNavigate();
+
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+    setIsOpen(false);
+  };
+
   return (
     <div
       id="hero"
@@ -30,7 +45,7 @@ const Hero = () => {
               style={{ lineHeight: 1.4 }}
             >
               Irvan Na'syakban is a{" "}
-              <span className="text-purple-500">web developer</span> and{" "}
+              <span className="text-purple-500">android developer</span> and{" "}
               <span className="text-purple-500">fullstack developer</span>
             </h1>
 
@@ -39,11 +54,11 @@ const Hero = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <button className="border border-purple-500 hover:bg-purple-500/10 text-white font-medium px-6 sm:px-8 py-2.5 sm:py-3 transition-all duration-300">
+              <button onClick={() => scrollToSection("contact")} className="border border-purple-500 hover:bg-purple-500/10 text-white font-medium px-6 sm:px-8 py-2.5 sm:py-3 transition-all duration-300">
                 Contact me!!
               </button>
 
-              <button className="border border-slate-400 hover:bg-slate-400/10 text-white font-medium px-6 sm:px-8 py-2.5 sm:py-3 transition-all duration-300">
+              <button onClick={() => navigate('/chat-ai')} className="border border-slate-400 hover:bg-slate-400/10 text-white font-medium px-6 sm:px-8 py-2.5 sm:py-3 transition-all duration-300">
                 Ask About me
               </button>
             </div>

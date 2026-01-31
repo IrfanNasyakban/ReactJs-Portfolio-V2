@@ -225,9 +225,7 @@ const EditOrganization = () => {
   };
 
   const handleCancel = () => {
-    if (window.confirm('Are you sure you want to cancel? All changes will be lost.')) {
-      navigate('/organizations');
-    }
+    navigate('/organizations');
   };
 
   // Loading State

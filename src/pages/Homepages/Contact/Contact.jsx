@@ -1,8 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaDiscord } from 'react-icons/fa';
 import { HiMail } from 'react-icons/hi';
 
 const Contact = () => {
+  const navigate = useNavigate();
+
   return (
       <div id='contact' className="max-w-7xl mx-auto mb-32 px-6 lg:px-0">
         {/* Header */}
@@ -30,21 +33,23 @@ const Contact = () => {
               
               <div className="space-y-3">
                 {/* Discord */}
-                <a 
-                  href="#" 
+                <a
+                  href="https://discord.com/users/440934545123049474"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors group"
                 >
                   <FaDiscord className="w-5 h-5" />
-                  <span className="text-sm">!Elias#3519</span>
+                  <span className="text-sm">irvannasyakban</span>
                 </a>
 
                 {/* Email */}
                 <a 
-                  href="mailto:elias@elias.me" 
+                  href="mailto:irvannasyakban@gmail.com" 
                   className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors group"
                 >
                   <HiMail className="w-5 h-5" />
-                  <span className="text-sm">elias@elias.me</span>
+                  <span className="text-sm">irvannasyakban@gmail.com</span>
                 </a>
               </div>
             </div>

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ReactMarkdown from "react-markdown";
 import {
   HiPaperAirplane,
   HiSparkles,
@@ -275,9 +276,82 @@ const ChatAI = () => {
                           : "bg-purple-600 text-white rounded-tr-sm"
                       }`}
                     >
-                      <p className="text-sm leading-relaxed whitespace-pre-wrap">
-                        {message.content}
-                      </p>
+                      {message.type === "ai" ? (
+                        <div className="text-sm leading-relaxed prose prose-invert prose-sm max-w-none">
+                          <ReactMarkdown
+                            components={{
+                              // Style for paragraphs
+                              p: ({ children }) => (
+                                <p className="mb-2 last:mb-0">{children}</p>
+                              ),
+                              // Style for bold text
+                              strong: ({ children }) => (
+                                <strong className="font-bold text-purple-300">{children}</strong>
+                              ),
+                              // Style for italic text
+                              em: ({ children }) => (
+                                <em className="italic text-slate-300">{children}</em>
+                              ),
+                              // Style for ordered lists
+                              ol: ({ children }) => (
+                                <ol className="list-decimal list-inside space-y-1 my-2">{children}</ol>
+                              ),
+                              // Style for unordered lists
+                              ul: ({ children }) => (
+                                <ul className="list-disc list-inside space-y-1 my-2">{children}</ul>
+                              ),
+                              // Style for list items
+                              li: ({ children }) => (
+                                <li className="ml-2">{children}</li>
+                              ),
+                              // Style for code blocks
+                              code: ({ inline, children }) =>
+                                inline ? (
+                                  <code className="bg-slate-600 px-1.5 py-0.5 rounded text-purple-300">
+                                    {children}
+                                  </code>
+                                ) : (
+                                  <code className="block bg-slate-600 p-2 rounded my-2 overflow-x-auto">
+                                    {children}
+                                  </code>
+                                ),
+                              // Style for headings
+                              h1: ({ children }) => (
+                                <h1 className="text-lg font-bold mb-2 text-purple-300">{children}</h1>
+                              ),
+                              h2: ({ children }) => (
+                                <h2 className="text-base font-bold mb-2 text-purple-300">{children}</h2>
+                              ),
+                              h3: ({ children }) => (
+                                <h3 className="text-sm font-bold mb-1 text-purple-300">{children}</h3>
+                              ),
+                              // Style for blockquotes
+                              blockquote: ({ children }) => (
+                                <blockquote className="border-l-4 border-purple-500 pl-3 my-2 italic text-slate-300">
+                                  {children}
+                                </blockquote>
+                              ),
+                              // Style for links
+                              a: ({ href, children }) => (
+                                <a
+                                  href={href}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-purple-400 hover:text-purple-300 underline"
+                                >
+                                  {children}
+                                </a>
+                              ),
+                            }}
+                          >
+                            {message.content}
+                          </ReactMarkdown>
+                        </div>
+                      ) : (
+                        <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                          {message.content}
+                        </p>
+                      )}
                     </div>
                     <p className="text-xs text-slate-500 mt-1 px-2">
                       {message.timestamp.toLocaleTimeString([], {

@@ -21,7 +21,7 @@ const LoginPage = () => {
       navigate("/dashboard");
     }
     // Reset state only if login was attempted
-    if (isError || isSuccess) {
+    if (isError) {
       const timer = setTimeout(() => {
         dispatch(reset());
       }, 3000);

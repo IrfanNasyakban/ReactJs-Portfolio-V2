@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import Navbar from "./Navbar/Navbar";
 import Hero from "./Hero/Hero";
 import Projects from "./Projects/Projects";
+import Certificates from "./Certificates/Certificates";
+import Experience from "./Experience/Experience";
+import Education from "./Education/Education";
+import Organization from "./Organization/Organization";
 import Skills from "./Skills/Skills";
 import About from "./About/About";
 import Contact from "./Contact/Contact";
@@ -22,8 +26,24 @@ const Homepage = () => {
         <Projects />
       </section>
 
+      <section id="certificates">
+        <Certificates />
+      </section>
+
+      <section id="experience">
+        <Experience />
+      </section>
+
       <section id="skills">
         <Skills />
+      </section>
+
+      <section id="education">
+        <Education />
+      </section>
+
+      <section id="organization">
+        <Organization />
       </section>
 
       <section id="about">

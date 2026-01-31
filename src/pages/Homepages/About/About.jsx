@@ -17,15 +17,17 @@ const About = () => {
           {/* Left Side - Content */}
           <div className="space-y-6">
             <p className="text-slate-400 text-base leading-relaxed">
-              Hello, i'm Elias!
+              Hello, i'm Irvan Nasyakban!
             </p>
 
             <p className="text-slate-400 text-base leading-relaxed">
-              I'm a self-taught front-end developer based in Kyiv, Ukraine. I can develop responsive websites from scratch and raise them into modern user-friendly web experiences.
+              Having an interest in the IT world such as Fullstack Developer,
+              I have a desire to present innovative and efficient technology solutions.
+              And I am also interested in learning about Golang for now.
             </p>
 
             <p className="text-slate-400 text-base leading-relaxed">
-              Transforming my creativity and knowledge into a websites has been my passion for over a year. I have been helping various clients to establish their presence online. I always strive to learn about the newest technologies and frameworks.
+              Transforming my creativity and knowledge into a websites has been my passion for over a year. I always strive to learn about the newest technologies and frameworks.
             </p>
 
             <button className="border border-purple-500 hover:bg-purple-500/10 text-white font-medium px-6 py-3 transition-all duration-300 flex items-center gap-2 group mt-6">

@@ -1,5 +1,5 @@
 import React from "react";
-import { FaGithub, FaFigma, FaDiscord } from "react-icons/fa";
+import { FaGithub, FaFigma, FaDiscord, FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
@@ -10,11 +10,11 @@ const Footer = () => {
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-white"></div>
-              <h3 className="text-white font-bold text-xl">Elias</h3>
-              <span className="text-slate-400 text-sm">elias@elias-dev.ml</span>
+              <h3 className="text-white font-bold text-xl">Irvan Nasyakban</h3>
+              <span className="text-slate-400 text-sm">irvannasyakban@gmail.com</span>
             </div>
             <p className="text-slate-400 text-sm max-w-md">
-              Web designer and front-end developer
+              Mobile Developer and Fullstack developer
             </p>
           </div>
 
@@ -23,21 +23,27 @@ const Footer = () => {
             <h4 className="text-white font-semibold text-lg">Media</h4>
             <div className="flex items-center gap-4">
               <a 
-                href="#" 
+                href="https://github.com/IrfanNasyakban"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-slate-400 hover:text-white transition-colors"
                 aria-label="Github"
               >
                 <FaGithub className="w-6 h-6" />
               </a>
               <a 
-                href="#" 
+                href="https://www.instagram.com/irfannasyakban/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-slate-400 hover:text-white transition-colors"
-                aria-label="Figma"
+                aria-label="Instagram"
               >
-                <FaFigma className="w-6 h-6" />
+                <FaInstagram className="w-6 h-6" />
               </a>
               <a 
-                href="#" 
+                href="https://discord.com/users/440934545123049474"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-slate-400 hover:text-white transition-colors"
                 aria-label="Discord"
               >
