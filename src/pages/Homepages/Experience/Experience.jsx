@@ -152,39 +152,6 @@ const Experience = () => {
         </div>
       )}
 
-      {/* Summary Stats - Optional */}
-      {!loading && experiences.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4"
-        >
-          <div className="bg-[#282C33] border border-gray-700 rounded-lg p-4 text-center">
-            <p className="text-3xl font-bold text-purple-400">{experiences.length}</p>
-            <p className="text-sm text-gray-400 mt-1">Total Experience</p>
-          </div>
-          <div className="bg-[#282C33] border border-gray-700 rounded-lg p-4 text-center">
-            <p className="text-3xl font-bold text-green-400">
-              {experiences.filter(e => e.status?.toLowerCase() === 'active').length}
-            </p>
-            <p className="text-sm text-gray-400 mt-1">Active Roles</p>
-          </div>
-          <div className="bg-[#282C33] border border-gray-700 rounded-lg p-4 text-center">
-            <p className="text-3xl font-bold text-blue-400">
-              {experiences.filter(e => e.status?.toLowerCase() === 'completed').length}
-            </p>
-            <p className="text-sm text-gray-400 mt-1">Completed</p>
-          </div>
-          <div className="bg-[#282C33] border border-gray-700 rounded-lg p-4 text-center">
-            <p className="text-3xl font-bold text-purple-400">
-              {new Set(experiences.map(e => e.namaPerusahaan)).size}
-            </p>
-            <p className="text-sm text-gray-400 mt-1">Companies</p>
-          </div>
-        </motion.div>
-      )}
-
       {/* Decorative Dots */}
       <div className="fixed top-32 left-8 grid grid-cols-5 gap-2 opacity-40 pointer-events-none">
         {[...Array(25)].map((_, i) => (
