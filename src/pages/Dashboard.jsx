@@ -20,6 +20,7 @@ import {
   FaInfoCircle,
   FaGithub,
   FaLinkedin,
+  FaGraduationCap,
 } from "react-icons/fa";
 
 const Dashboard = () => {
@@ -32,6 +33,8 @@ const Dashboard = () => {
     experience: 0,
     education: 0
   });
+  const [skillsData, setSkillsData] = useState(null);
+  const [featuredProjects, setFeaturedProjects] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [redirectPath, setRedirectPath] = useState("");
@@ -56,6 +59,51 @@ const Dashboard = () => {
   const safeColor = currentColor || '#A855F7'; // Fallback to purple
   const isDark = currentMode === 'Dark';
 
+  // Parse skills from comma-separated string
+  const parseSkills = (skillString) => {
+    if (!skillString) return [];
+    return skillString.split(',').map(skill => skill.trim()).filter(skill => skill !== '');
+  };
+
+  // Parse tech stack from comma-separated string
+  const parseTechStack = (techStackString) => {
+    if (!techStackString) return [];
+    return techStackString.split(',').map(tech => tech.trim()).filter(tech => tech !== '');
+  };
+
+  // Get featured skills from skillsData
+  const getFeaturedSkills = () => {
+    if (!skillsData) return [];
+    
+    const allSkills = [
+      ...parseSkills(skillsData.languages),
+      ...parseSkills(skillsData.frameworks),
+      ...parseSkills(skillsData.tools)
+    ];
+
+    // Return first 6 skills with mock levels (you can adjust this logic)
+    return allSkills.slice(0, 6).map((skill, index) => ({
+      name: skill,
+      level: 95 - (index * 5), // Mock levels from 95 to 70
+      icon: getSkillIcon(skill)
+    }));
+  };
+
+  // Get icon based on skill name
+  const getSkillIcon = (skillName) => {
+    const skill = skillName.toLowerCase();
+    if (skill.includes('react')) return '⚛️';
+    if (skill.includes('node')) return '🟢';
+    if (skill.includes('python')) return '🐍';
+    if (skill.includes('javascript') || skill.includes('js')) return '💛';
+    if (skill.includes('typescript') || skill.includes('ts')) return '🔷';
+    if (skill.includes('mongo')) return '🍃';
+    if (skill.includes('express')) return '🚀';
+    if (skill.includes('docker')) return '🐳';
+    if (skill.includes('git')) return '🔧';
+    return '💻';
+  };
+
   // Dashboard cards data
   const dashboardCards = [
     {
@@ -64,8 +112,8 @@ const Dashboard = () => {
       title: "Projects",
       subtitle: "Completed projects",
       color: safeColor,
-      navigateTo: "/projects",
-      onClick: () => navigate("/projects")
+      navigateTo: "/list-projects",
+      onClick: () => navigate("/list-projects")
     },
     {
       icon: <FaTools />,
@@ -73,8 +121,8 @@ const Dashboard = () => {
       title: "Skills",
       subtitle: "Technical & soft skills",
       color: safeColor,
-      navigateTo: "/skills",
-      onClick: () => navigate("/skills")
+      navigateTo: "/list-skills",
+      onClick: () => navigate("/list-skills")
     },
     {
       icon: <FaCertificate />,
@@ -82,28 +130,18 @@ const Dashboard = () => {
       title: "Certificates",
       subtitle: "Professional certifications",
       color: safeColor,
-      navigateTo: "/certificates",
-      onClick: () => navigate("/certificates")
+      navigateTo: "/list-certificates",
+      onClick: () => navigate("/list-certificates")
     },
     {
       icon: <FaBriefcase />,
       count: portfolioStats.experience,
       title: "Experience",
-      subtitle: "Years of work experience",
+      subtitle: "Work experiences",
       color: safeColor,
-      navigateTo: "/experience",
-      onClick: () => navigate("/experience")
+      navigateTo: "/list-experiences",
+      onClick: () => navigate("/list-experiences")
     },
-  ];
-
-  // Featured skills
-  const featuredSkills = [
-    { name: "React.js", level: 90, icon: "⚛️" },
-    { name: "Node.js", level: 85, icon: "🟢" },
-    { name: "Python", level: 80, icon: "🐍" },
-    { name: "JavaScript", level: 95, icon: "💛" },
-    { name: "TypeScript", level: 75, icon: "🔷" },
-    { name: "MongoDB", level: 85, icon: "🍃" }
   ];
 
   const handleLogout = async () => {
@@ -134,34 +172,66 @@ const Dashboard = () => {
       const apiUrl = process.env.REACT_APP_URL_API;
       const headers = { Authorization: `Bearer ${token}` };
 
-      // Fetch portfolio data (adjust endpoints as needed)
+      // Fetch portfolio data
       const [projectsRes, skillsRes, certsRes, expRes, eduRes] = await Promise.all([
-        axios.get(`${apiUrl}/projects`, { headers }).catch(() => ({ data: [] })),
-        axios.get(`${apiUrl}/skills`, { headers }).catch(() => ({ data: [] })),
-        axios.get(`${apiUrl}/certificates`, { headers }).catch(() => ({ data: [] })),
+        axios.get(`${apiUrl}/project`, { headers }).catch(() => ({ data: [] })),
+        axios.get(`${apiUrl}/skill`, { headers }).catch(() => ({ data: null })),
+        axios.get(`${apiUrl}/certificate`, { headers }).catch(() => ({ data: [] })),
         axios.get(`${apiUrl}/experience`, { headers }).catch(() => ({ data: [] })),
         axios.get(`${apiUrl}/education`, { headers }).catch(() => ({ data: [] }))
       ]);
 
+      // Handle projects data
+      const projects = Array.isArray(projectsRes.data) ? projectsRes.data : [projectsRes.data].filter(Boolean);
+      
+      // Set featured projects (latest 3)
+      const sortedProjects = projects.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setFeaturedProjects(sortedProjects.slice(0, 3));
+
+      // Handle skills data (single object response)
+      const skills = skillsRes.data;
+      setSkillsData(skills);
+      
+      // Count total skills
+      let totalSkills = 0;
+      if (skills) {
+        totalSkills = [
+          ...parseSkills(skills.languages),
+          ...parseSkills(skills.databases),
+          ...parseSkills(skills.tools),
+          ...parseSkills(skills.frameworks),
+          ...parseSkills(skills.other)
+        ].length;
+      }
+
+      // Handle certificates data
+      const certificates = Array.isArray(certsRes.data) ? certsRes.data : [certsRes.data].filter(Boolean);
+
+      // Handle experience data
+      const experiences = Array.isArray(expRes.data) ? expRes.data : [expRes.data].filter(Boolean);
+
+      // Handle education data
+      const educations = Array.isArray(eduRes.data) ? eduRes.data : [eduRes.data].filter(Boolean);
+
       setPortfolioStats({
-        totalProjects: projectsRes.data.length || 12,
-        completedProjects: projectsRes.data.filter(p => p.status === 'completed').length || 10,
-        skills: skillsRes.data.length || 15,
-        certificates: certsRes.data.length || 8,
-        experience: expRes.data.length || 3,
-        education: eduRes.data.length || 2
+        totalProjects: projects.length,
+        completedProjects: projects.filter(p => p.status?.toLowerCase() === 'completed').length,
+        skills: totalSkills,
+        certificates: certificates.length,
+        experience: experiences.length,
+        education: educations.length
       });
     } catch (error) {
       console.error("Error fetching portfolio data:", error);
-      // Set default values if API fails
       setPortfolioStats({
-        totalProjects: 12,
-        completedProjects: 10,
-        skills: 15,
-        certificates: 8,
-        experience: 3,
-        education: 2
+        totalProjects: 0,
+        completedProjects: 0,
+        skills: 0,
+        certificates: 0,
+        experience: 0,
+        education: 0
       });
+      setFeaturedProjects([]);
     } finally {
       setLoading(false);
     }
@@ -181,7 +251,7 @@ const Dashboard = () => {
     } catch (error) {
       if (error.response?.status === 404) {
         const message = "Your biodata hasn't been created yet. Please complete your profile to continue.";
-        const path = "/biodata";
+        const path = "/biodata/create";
         
         setModalMessage(message);
         setRedirectPath(path);
@@ -197,6 +267,8 @@ const Dashboard = () => {
       navigate(redirectPath);
     }
   };
+
+  const featuredSkills = getFeaturedSkills();
 
   return (
     <div className="min-h-screen p-6">
@@ -237,7 +309,7 @@ const Dashboard = () => {
                 </div>
                 <div>
                   <h1 className={`text-4xl font-bold ${isDark ? 'text-white' : 'text-gray-800'}`}>
-                    Welcome back, <span style={{ color: safeColor }}>Irvan</span>
+                    Welcome back, <span style={{ color: safeColor }}>{user?.username || 'User'}</span>
                   </h1>
                   <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
                     Web developer and fullstack developer
@@ -341,35 +413,47 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              <div className="space-y-4">
-                {featuredSkills.map((skill, index) => (
-                  <div key={index}>
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <span>{skill.icon}</span>
-                        <span className={`font-medium ${isDark ? 'text-white' : 'text-gray-800'}`}>
-                          {skill.name}
+              {loading ? (
+                <div className="flex justify-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2" style={{ borderColor: safeColor }}></div>
+                </div>
+              ) : featuredSkills.length > 0 ? (
+                <div className="space-y-4">
+                  {featuredSkills.map((skill, index) => (
+                    <div key={index}>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <span>{skill.icon}</span>
+                          <span className={`font-medium ${isDark ? 'text-white' : 'text-gray-800'}`}>
+                            {skill.name}
+                          </span>
+                        </div>
+                        <span className="font-bold" style={{ color: safeColor }}>
+                          {skill.level}%
                         </span>
                       </div>
-                      <span className="font-bold" style={{ color: safeColor }}>
-                        {skill.level}%
-                      </span>
+                      <div className={`h-2 rounded-full ${isDark ? 'bg-gray-700' : 'bg-gray-200'}`}>
+                        <motion.div 
+                          initial={{ width: 0 }}
+                          animate={{ width: `${skill.level}%` }}
+                          transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
+                          className="h-2 rounded-full"
+                          style={{ backgroundColor: safeColor }}
+                        ></motion.div>
+                      </div>
                     </div>
-                    <div className={`h-2 rounded-full ${isDark ? 'bg-gray-700' : 'bg-gray-200'}`}>
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: `${skill.level}%` }}
-                        transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
-                        className="h-2 rounded-full"
-                        style={{ backgroundColor: safeColor }}
-                      ></motion.div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                    No skills data available
+                  </p>
+                </div>
+              )}
 
               <button
-                onClick={() => navigate('/skills')}
+                onClick={() => navigate('/list-skills')}
                 className="w-full mt-6 py-3 rounded-lg text-white font-medium transition-all duration-300 hover:shadow-lg"
                 style={{ backgroundColor: safeColor }}
               >
@@ -420,7 +504,7 @@ const Dashboard = () => {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
                   <div 
                     className="p-3 rounded-lg text-center"
                     style={{ backgroundColor: getColorWithOpacity(safeColor, 0.1) }}
@@ -437,10 +521,21 @@ const Dashboard = () => {
                     style={{ backgroundColor: getColorWithOpacity(safeColor, 0.1) }}
                   >
                     <div className="text-2xl font-bold" style={{ color: safeColor }}>
-                      {portfolioStats.experience}+
+                      {portfolioStats.experience}
                     </div>
                     <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                      Years Exp
+                      Experience
+                    </div>
+                  </div>
+                  <div 
+                    className="p-3 rounded-lg text-center"
+                    style={{ backgroundColor: getColorWithOpacity(safeColor, 0.1) }}
+                  >
+                    <div className="text-2xl font-bold" style={{ color: safeColor }}>
+                      {portfolioStats.education}
+                    </div>
+                    <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                      Education
                     </div>
                   </div>
                 </div>
@@ -523,49 +618,71 @@ const Dashboard = () => {
               </button>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-4">
-              {[1, 2, 3].map((project) => (
-                <div 
-                  key={project}
-                  className={`p-4 rounded-lg border cursor-pointer transition-all duration-300 hover:scale-105 ${
-                    isDark ? 'bg-gray-700/50 border-gray-600 hover:bg-gray-700' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
-                  }`}
-                >
-                  <div 
-                    className="h-32 rounded-lg mb-3"
-                    style={{ backgroundColor: getColorWithOpacity(safeColor, 0.2) }}
-                  >
-                    {/* Project thumbnail placeholder */}
-                  </div>
-                  <h3 className={`font-semibold mb-1 ${isDark ? 'text-white' : 'text-gray-800'}`}>
-                    Project {project}
-                  </h3>
-                  <p className={`text-sm mb-3 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                    Description of the project
-                  </p>
-                  <div className="flex gap-2">
-                    <span 
-                      className="text-xs px-2 py-1 rounded"
-                      style={{ 
-                        backgroundColor: getColorWithOpacity(safeColor, 0.2),
-                        color: safeColor
-                      }}
+            {loading ? (
+              <div className="flex justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2" style={{ borderColor: safeColor }}></div>
+              </div>
+            ) : featuredProjects.length > 0 ? (
+              <div className="grid md:grid-cols-3 gap-4">
+                {featuredProjects.map((project) => {
+                  const techStack = parseTechStack(project.techStack);
+                  
+                  return (
+                    <div 
+                      key={project.id}
+                      className={`p-4 rounded-lg border cursor-pointer transition-all duration-300 hover:scale-105 ${
+                        isDark ? 'bg-gray-700/50 border-gray-600 hover:bg-gray-700' : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                      }`}
+                      onClick={() => navigate('/list-projects')}
                     >
-                      React
-                    </span>
-                    <span 
-                      className="text-xs px-2 py-1 rounded"
-                      style={{ 
-                        backgroundColor: getColorWithOpacity(safeColor, 0.2),
-                        color: safeColor
-                      }}
-                    >
-                      Node.js
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
+                      <div 
+                        className="h-32 rounded-lg mb-3 overflow-hidden bg-gray-800"
+                      >
+                        <img 
+                          src={project.url} 
+                          alt={project.judul}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.target.src = 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=300&fit=crop';
+                          }}
+                        />
+                      </div>
+                      <h3 className={`font-semibold mb-1 line-clamp-1 ${isDark ? 'text-white' : 'text-gray-800'}`}>
+                        {project.judul}
+                      </h3>
+                      <p className={`text-sm mb-3 line-clamp-2 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                        {project.deskripsi}
+                      </p>
+                      <div className="flex gap-2 flex-wrap">
+                        {techStack.slice(0, 2).map((tech, index) => (
+                          <span 
+                            key={index}
+                            className="text-xs px-2 py-1 rounded"
+                            style={{ 
+                              backgroundColor: getColorWithOpacity(safeColor, 0.2),
+                              color: safeColor
+                            }}
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                        {techStack.length > 2 && (
+                          <span className={`text-xs px-2 py-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                            +{techStack.length - 2}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <p className={`${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                  No projects available
+                </p>
+              </div>
+            )}
           </div>
         </motion.div>
       </div>

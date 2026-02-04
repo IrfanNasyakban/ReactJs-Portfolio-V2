@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import { Navbar, Footer, Sidebar, ThemeSettings } from "./components";
-import { Page404, Homepage, ChatAI, CertificatesPage, Dashboard, LoginPage, BiodataPage, AddBiodata, EditBiodata, ListProject, AddProject, EditProject, ListSkill, AddSkill, EditSkill, ListCertificate, AddCertificate, EditCertificate, ListExperience, AddExperience, EditExperience, ListEducation, AddEducation, EditEducation, ListOrganization, AddOrganization, EditOrganization, ChangePassword } from "./pages";
+import { Page404, Homepage, ChatAI, CertificatesPage, ProjectsPage, Dashboard, LoginPage, BiodataPage, AddBiodata, EditBiodata, ListProject, AddProject, EditProject, ListSkill, AddSkill, EditSkill, ListCertificate, AddCertificate, EditCertificate, ListExperience, AddExperience, EditExperience, ListEducation, AddEducation, EditEducation, ListOrganization, AddOrganization, EditOrganization, ChangePassword } from "./pages";
 
 import { useStateContext } from "./contexts/ContextProvider";
 
@@ -16,6 +16,7 @@ const AppContent = () => {
   const isDashboard = location.pathname === "/dashboard";
   const isChatAI = location.pathname === "/chat-ai";
   const isCertificatesPage = location.pathname === "/certificates-page";
+  const isProjectsPage = location.pathname === "/projects-page";
 
   // Toggle class body-no-scroll
   useEffect(() => {
@@ -38,11 +39,11 @@ const AppContent = () => {
         {themeSettings && <ThemeSettings />}
 
         {/* Sidebar */}
-        { !isLoginPage && !isHomepage && !isChatAI && !isCertificatesPage &&  activeMenu ? (
+        { !isLoginPage && !isHomepage && !isChatAI && !isCertificatesPage && !isProjectsPage &&  activeMenu ? (
           <div className="w-72 fixed sidebar dark:bg-secondary-dark-bg bg-white">
             <Sidebar />
           </div>
-        ) : !isLoginPage && !isHomepage && !isChatAI && !isCertificatesPage ? (
+        ) : !isLoginPage && !isHomepage && !isChatAI && !isCertificatesPage && !isProjectsPage ? (
           <div className="w-0 dark:bg-secondary-dark-bg">
             <Sidebar />
           </div>
@@ -51,10 +52,10 @@ const AppContent = () => {
         {/* Main Content */}
         <div
           className={`main-content dark:bg-main-dark-bg bg-main-bg min-h-screen w-full ${
-            activeMenu && !isLoginPage && !isHomepage && !isChatAI && !isCertificatesPage ? "sidebar-visible" : "full-width"
+            activeMenu && !isLoginPage && !isHomepage && !isChatAI && !isCertificatesPage && !isProjectsPage ? "sidebar-visible" : "full-width"
           }`}
         >
-          { !isLoginPage && !isHomepage && !isChatAI && !isCertificatesPage && (
+          { !isLoginPage && !isHomepage && !isChatAI && !isCertificatesPage && !isProjectsPage && (
             <div className="fixed md:static bg-main-bg dark:bg-main-dark-bg navbar w-full">
               <Navbar />
             </div>
@@ -68,6 +69,7 @@ const AppContent = () => {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/chat-ai" element={<ChatAI />} />
               <Route path="/certificates-page" element={<CertificatesPage />} />
+              <Route path="/projects-page" element={<ProjectsPage />} />
               
               Portfolio Routes
               <Route path="/biodata" element={<BiodataPage />} />
@@ -98,7 +100,7 @@ const AppContent = () => {
             </Routes>
           </div>
 
-          { !isLoginPage && !isDashboard && !isHomepage && !isChatAI && !isCertificatesPage && <Footer /> }
+          { !isLoginPage && !isDashboard && !isHomepage && !isChatAI && !isCertificatesPage && !isProjectsPage && <Footer /> }
         </div>
       </div>
     </div>

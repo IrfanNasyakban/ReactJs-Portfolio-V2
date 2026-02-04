@@ -4,6 +4,7 @@ export { default as Page404 } from './Page404';
 export { default as Homepage } from './Homepages/homepage';
 export { default as ChatAI } from './ChatAI/ChatAI';
 export { default as CertificatesPage } from './Homepages/CertificatesPage/CertificatesPage';
+export { default as ProjectsPage } from './Homepages/ProjectsPage/ProjectsPage';
 export { default as BiodataPage } from './BiodataPage';
 export { default as AddBiodata } from './AddBiodata';
 export { default as EditBiodata } from './EditBiodata';

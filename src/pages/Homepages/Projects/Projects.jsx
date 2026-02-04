@@ -57,10 +57,10 @@ const Projects = () => {
           </h2>
           <div className="h-[1px] bg-purple-500 flex-grow max-w-[500px]"></div>
         </div>
-        <a href="#" className="text-white hover:text-purple-500 transition-colors flex items-center gap-2 group">
+        <button onClick={() => navigate("/projects-page")} className="text-white hover:text-purple-500 transition-colors flex items-center gap-2 group">
           View all
           <HiArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-        </a>
+        </button>
       </div>
 
       {/* Projects Grid */}
