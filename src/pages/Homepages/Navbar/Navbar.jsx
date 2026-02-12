@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { MdMenu, MdClose } from "react-icons/md";
 import { motion } from "framer-motion";
+import logo from "../../../assets/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -29,9 +30,11 @@ const Navbar = () => {
         <div className="container mx-auto px-6 flex justify-between items-center py-5">
           {/* Logo section */}
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-purple-600 rounded flex items-center justify-center">
-              <span className="text-white font-bold text-sm">⚡</span>
-            </div>
+            <img 
+              src={logo} 
+              alt="Logo" 
+              className="w-8 h-8 object-contain"
+            />
             <h1 className="text-xl font-bold text-white tracking-tight">
               Irvan Nasyakban
             </h1>
